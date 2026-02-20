@@ -1,7 +1,69 @@
-<H1>COMPONENTE EVENTOS</H1>
+<H2>EVENTOS</H2>
 <hr>
-<div *ngFor="let item of eventos">
-  <p>{{item.tema}}</p>
-  <p>{{item.local}}</p>
-  <hr>
+
+<div class="form-inline">
+  <div class="form-group mb-2">
+    <label class = "mr-2">Filtro: </label>
+    <input
+    type="text"
+    class="form-control mr-2"
+    placeholder="Buscar"
+    [value]="filtro"
+    (input)="filtro = $any($event.target).value"
+    >
+
+  </div>
 </div>
+
+<table class="table table-striped text-center" >
+  <thead class="thead-dark" >
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Evento</th>
+      <th scope="col">Local</th>
+      <th scope="col">Data</th>
+      <th scope="col">Tema</th>
+      <th scope="col">Qtd Pessoas</th>
+      <th scope="col">Lote</th>
+      <th scope="col">
+        <button type="button" class="btn btn-outline-light btn-sm"
+        (click)=" alterarImagem()">
+          {{ mostrarImagem ? 'Ocultar Imagens' : 'Exibir Imagens' }}
+        </button>
+      </th>
+      <th scope="col">
+        <button class="btn btn-outline-success">Novo</button>
+      </th>
+    </tr>
+  </thead>
+  <tbody *ngIf="eventosFiltrados && eventosFiltrados.length > 0;">
+    <tr *ngFor="let evento of eventosFiltrados">
+      <th scope="row">{{ evento.eventoId }}</th>
+      <td>{{ evento.tema }}</td>
+      <td>{{ evento.local }}</td>
+      <td>{{ evento.dataEvento | date: 'dd/MM/yyyy' }}</td>
+      <td>{{ evento.tema }}</td>
+      <td>{{ evento.qtdPessoas }}</td>
+      <td>{{ evento.lote }}</td>
+      <td>
+        <img [collapse]="!mostrarImagem"
+          [isAnimated]="true"
+          [src]="'https://www.popwebdesign.net/popart_blog/wp-content/uploads/2020/07/what-is-new-in-dotnet-5.jpg'"
+          alt="{{ evento.tema }}"
+          title="{{evento.tema}}"
+          class="img-thumbnail mr-2 mb-2 evento-imagem">
+      </td>
+      <td>
+        <button type="button" class="btn btn-outline-primary">Editar</button>
+        <button type="button" class="btn btn-outline-danger">Excluir</button>
+      </td>
+    </tr>
+  </tbody>
+  <tfoot *ngIf="eventosFiltrados && !eventosFiltrados.length;">
+    <tr>
+      <td colspan="8" class="text-center">
+        <h4>Nenhum evento encontrado.</h4>
+      </td>
+    </tr>
+  </tfoot>
+</table>
